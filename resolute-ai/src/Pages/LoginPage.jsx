@@ -29,13 +29,18 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Login() {
+    const login ={
+        email:"resoluteai@gmail.com",
+        password:"1234"
+    }
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    if(login.email==data.get('email') && login.password == data.get('password')){
+        alert("login success")
+    }else{
+        alert("wrong credentials")
+    }
   };
 
   return (
