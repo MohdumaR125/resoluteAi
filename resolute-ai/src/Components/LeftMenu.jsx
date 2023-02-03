@@ -13,7 +13,7 @@ export default function PermanentDrawerLeft() {
         navigate(`${e.target.value}`)
     }
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', }}>
       <CssBaseline />
      
       <Drawer
@@ -23,6 +23,8 @@ export default function PermanentDrawerLeft() {
           '& .MuiDrawer-paper': {
             width: drawerWidth,
             boxSizing: 'border-box',
+            paddingTop:"200px",
+            gap:"20px"
           },
         }}
         variant="permanent"
