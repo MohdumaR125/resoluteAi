@@ -7,8 +7,8 @@ const AddStudentPage = () =>{
 return(
     <>
         <Navbar/>
-  
     <PermanentDrawerLeft/>
+    <div style={{paddingTop:"100px"}}><h2>Add Student</h2></div>
     <Form/>
         
     </>
