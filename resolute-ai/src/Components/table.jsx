@@ -12,6 +12,7 @@ import { useState } from 'react';
 import Form from './Form';
 import { ref, remove } from 'firebase/database';
 import { db } from '../firebase-config';
+import Navbar from './Navbar';
 
 
 export default function BasicTable(props) {
@@ -48,8 +49,10 @@ export default function BasicTable(props) {
 
     }
     const deleteRow = (e)=>{
-        console.log(e.target.id)
-        remove(ref(db,`/${e.target.id}`))
+        let text = "Are you sure you want to delete this item";
+        if (window.confirm(text) == true) {
+            remove(ref(db,`/${e.target.id}`))
+        }
 
     }
 
@@ -61,6 +64,7 @@ export default function BasicTable(props) {
 
   return (
       <>
+      <Navbar/>
     <TableContainer component={Paper} sx={{pl:"250px",pt:"200px",}}>
       <Table sx={{ minWidth: 450 }} aria-label="simple table">
         <TableHead>
@@ -86,9 +90,9 @@ export default function BasicTable(props) {
               </TableCell>
               <TableCell align="right">{row.Class+"-"+row.section}</TableCell>
               <TableCell align="right">{row.rollNo}</TableCell>
-              <TableCell align="right"  id={row.id} onClick={openViewModal}>View</TableCell>
-              <TableCell align="right"  id={row.id} onClick={openEditModal}>Edit</TableCell>
-              <TableCell align="right"  id={row.id} onClick={deleteRow}>Delete</TableCell>
+              <TableCell align="right" sx={{cursor:"pointer"}}  id={row.id} onClick={openViewModal}>View</TableCell>
+              <TableCell align="right" sx={{cursor:"pointer"}} id={row.id} onClick={openEditModal}>Edit</TableCell>
+              <TableCell align="right" sx={{cursor:"pointer"}} id={row.id} onClick={deleteRow}>Delete</TableCell>
             </TableRow>
           ))}
         </TableBody>

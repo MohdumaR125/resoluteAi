@@ -63,40 +63,46 @@ export default function Form(props) {
         })
        }
        else{
-        const {
-          firstName,
-          midlleName,
-          lastName,
-          Class,
-          section,
-          rollNo,
-          addressLine1,
-          addressLine2,
-          landmark,
-          city,
-          pincode,
-        } =data;
-        const id=Date.now()+firstName+lastName+Math.floor(Math.random() * 1000)
-        console.log(id)
-      console.log(data)
-
-        set(ref(db,`/${id}`),{
-          id,
-              firstName,
-              midlleName,
-              lastName,
-              Class,
-              section,
-              rollNo,
-              addressLine1,
-              addressLine2,
-              landmark,
-              city,
-              pincode,
-        }).then((res)=>{
-              alert("data stored")
-              setData(initState)
+         
+         const {
+           firstName,
+           midlleName,
+           lastName,
+           Class,
+           section,
+           rollNo,
+           addressLine1,
+           addressLine2,
+           landmark,
+           city,
+           pincode,
+          } =data;
+          if(firstName&&lastName&&Class&&section&&rollNo&&addressLine1&&city&&pincode){
+          const id=Date.now()+firstName+lastName+Math.floor(Math.random() * 1000)
+          console.log(id)
+          console.log(data)
+          
+          set(ref(db,`/${id}`),{
+            id,
+            firstName,
+            midlleName,
+            lastName,
+            Class,
+            section,
+            rollNo,
+            addressLine1,
+            addressLine2,
+            landmark,
+            city,
+            pincode,
+          }).then((res)=>{
+            alert("data stored")
+            setData(initState)
           }).catch(err=>console.log(err))
+        }
+          else{
+            alert("Please fill details")
+          }
        }
 
         
