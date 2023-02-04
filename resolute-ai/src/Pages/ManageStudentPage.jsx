@@ -10,15 +10,14 @@ const ManageStudentPage = () =>{
 
     const [data,setData] = useState([])
     useEffect(()=>{
-        let finaldata
         onValue(ref(db),snapshot=>{
             const data1= snapshot.val();
             if(data1!==null){
-                const array=(Object.values(data1)[0])
-                 finaldata=(Object.values(array))
-                 finaldata.map((el)=>{
+                setData([])
+                Object.values(data1).map((el)=>{
                     setData(olddata=>[...olddata,el])
-                 })
+                })            
+
             }
             console.log(data)
         })

@@ -9,21 +9,35 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useState } from 'react';
-import { padding, style } from '@mui/system';
+import Form from './Form';
+import { ref, remove } from 'firebase/database';
+import { db } from '../firebase-config';
 
 
 export default function BasicTable(props) {
-    const {data} =props
+    const {data} =props;
     const [open, setOpen] = React.useState(false);
+    const [view,setView] =useState(true)
+    const [edit,setEdit] =useState(true)
     const [student,setStudent] =useState({});
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const openEditModal = (e)=>{
+        setView(false);
+        setEdit(true);
         e.preventDefault();
-        console.log(e.target.id)
+        
+        const value=data.find((el)=>{
+            return el.id===e.target.id;
+        })
+        console.log(value)
+        setStudent(value)
+        handleOpen()
     }
     const openViewModal = (e)=>{
+        setEdit(false);
+        setView(true);
         console.log(e.target.id)
         const value=data.find((el)=>{
             return el.id===e.target.id;
@@ -35,6 +49,7 @@ export default function BasicTable(props) {
     }
     const deleteRow = (e)=>{
         console.log(e.target.id)
+        remove(ref(db,`/${e.target.id}`))
 
     }
 
@@ -79,7 +94,7 @@ export default function BasicTable(props) {
         </TableBody>
       </Table>
     </TableContainer>
-    <Modal
+    {view && <Modal
     open={open}
     onClose={handleClose}
     aria-labelledby="modal-modal-title"
@@ -107,7 +122,32 @@ export default function BasicTable(props) {
       <p><b>City</b> -{student.city}</p><br />
       <p><b>Pincode</b> -{student.pincode}</p><br />
     </Box>
-  </Modal>
+  </Modal>}
+  {edit &&
+  <Modal
+  open={open}
+  onClose={handleClose}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+  sx={{
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      
+      
+  }}
+  >
+    <Box sx={{
+        display: "block",
+        padding:"50px",
+       margin:"auto",
+       backgroundColor: "white"
+
+      }}>
+
+      <Form student={student}/>
+    </Box>
+  </Modal>}
   </>
   );
 }
