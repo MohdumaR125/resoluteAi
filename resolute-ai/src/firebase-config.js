@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import "firebase/database"
+import {getDatabase} from  "firebase/database";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDyRnryzHakMX4MdXnhKbhE5TwrB3s7Ago",
@@ -11,5 +11,5 @@ const firebaseConfig = {
     appId: "1:480553148157:web:aa838a6063777c432aa894",
     measurementId: "G-4870LLFQR8"
   };
-  const firedb = initializeApp(firebaseConfig)
-  export default firedb.database().ref();
+  const app = initializeApp(firebaseConfig)
+  export const db = getDatabase(app)

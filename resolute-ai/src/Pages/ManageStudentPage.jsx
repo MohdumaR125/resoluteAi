@@ -2,25 +2,34 @@ import { useEffect } from "react"
 import { useState } from "react"
 import PermanentDrawerLeft from "../Components/LeftMenu"
 import Navbar from "../Components/Navbar"
+import {db} from "../firebase-config"
+import{set,ref, onValue} from "firebase/database"
+import BasicTable from "../Components/table"
 
 const ManageStudentPage = () =>{
 
     const [data,setData] = useState([])
     useEffect(()=>{
-        getData()
-    },[data])
+        let finaldata
+        onValue(ref(db),snapshot=>{
+            const data1= snapshot.val();
+            if(data1!==null){
+                const array=(Object.values(data1)[0])
+                 finaldata=(Object.values(array))
+                 finaldata.map((el)=>{
+                    setData(olddata=>[...olddata,el])
+                 })
+            }
+            console.log(data)
+        })
+    },[])
 
-    const getData = async()=>{
-        const res = await fetch("https://resolute-99fee-default-rtdb.firebaseio.com/.json");
-        const data1=await res.json();
-        console.log(data)
-    }
 
 return(
     <>
-    <Navbar/>
+  
     <PermanentDrawerLeft/>
-    <div>managestudent</div>
+   <BasicTable data={data}/>
     </>
 )
 }
