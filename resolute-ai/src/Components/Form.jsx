@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 export default function Form() {
     const initState = {
+        id:"",
         firstName: "",
         midlleName: "",
         lastName: "",
@@ -40,6 +41,7 @@ export default function Form() {
             city,
             pincode,
           } =data;
+          const id=Date.now()+firstName+lastName+Math.random(100)
         console.log(data)
         fetch('https://resolute-99fee-default-rtdb.firebaseio.com/students.json',
         {
@@ -48,7 +50,8 @@ export default function Form() {
               'Content-Type': 'application/json'
             },
             method: "POST",
-            body: JSON.stringify({firstName,
+            body: JSON.stringify({id,
+                firstName,
                 midlleName,
                 lastName,
                 Class,
@@ -125,8 +128,8 @@ export default function Form() {
       <TextField id="filled-basic" name ="addressLine1" label="Address Line 1" variant="filled" onChange={handleChange}/>
       <TextField id="filled-basic" name ="addressLine2" label="Address Line 2" variant="filled" onChange={handleChange}/>
       <TextField id="filled-basic" name ="landmark" label="Landmark" variant="filled" onChange={handleChange}/>
-      <TextField id="filled-basic" name ="city" label="City" variant="filled" />
-      <TextField id="filled-basic" name ="pincode" label="Pincode" variant="filled" type= "number" max="999999" />
+      <TextField id="filled-basic" name ="city" label="City" variant="filled" onChange={handleChange}/>
+      <TextField id="filled-basic" name ="pincode" label="Pincode" variant="filled" type= "number" max="999999" onChange={handleChange}/>
       <Button variant="contained" size='large' color="error" sx={{height:"53px" ,m:1}} onClick={submitForm}>Add Student</Button>
 
     </Box>

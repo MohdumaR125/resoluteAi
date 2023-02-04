@@ -1,23 +1,41 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
+import {Modal} from '@mui/material';
+import Box from '@mui/material/Box';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { useState } from 'react';
+import { padding, style } from '@mui/system';
+
 
 export default function BasicTable(props) {
     const {data} =props
+    const [open, setOpen] = React.useState(false);
+    const [student,setStudent] =useState({});
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    const openEditModal = ()=>{
+    const openEditModal = (e)=>{
+        e.preventDefault();
+        console.log(e.target.id)
+    }
+    const openViewModal = (e)=>{
+        console.log(e.target.id)
+        const value=data.find((el)=>{
+            return el.id===e.target.id;
+        })
+        console.log(value)
+        setStudent(value)
+        handleOpen()
 
     }
-    const openViewModal = ()=>{
+    const deleteRow = (e)=>{
+        console.log(e.target.id)
 
-    }
-    const deleteRow = ()=>{
-        
     }
 
 
@@ -27,6 +45,7 @@ export default function BasicTable(props) {
 
 
   return (
+      <>
     <TableContainer component={Paper} sx={{pl:"250px",pt:"200px",}}>
       <Table sx={{ minWidth: 450 }} aria-label="simple table">
         <TableHead>
@@ -43,21 +62,52 @@ export default function BasicTable(props) {
         <TableBody>
           {data.map((row) => (
             <TableRow
-              key={row.firstName+row.lastName}
+              key={row.id}
+             
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.firstName}
+                {row.firstName +" "+ row.lastName}
               </TableCell>
               <TableCell align="right">{row.Class+"-"+row.section}</TableCell>
               <TableCell align="right">{row.rollNo}</TableCell>
-              <TableCell align="right" onClick={openViewModal}>View</TableCell>
-              <TableCell align="right" onClick={openEditModal}>Edit</TableCell>
-              <TableCell align="right" onClick={deleteRow}>Delete</TableCell>
+              <TableCell align="right"  id={row.id} onClick={openViewModal}>View</TableCell>
+              <TableCell align="right"  id={row.id} onClick={openEditModal}>Edit</TableCell>
+              <TableCell align="right"  id={row.id} onClick={deleteRow}>Delete</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
+    <Modal
+    open={open}
+    onClose={handleClose}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+    sx={{
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        
+        
+    }}
+  >
+    <Box  sx={{
+        display: "block",
+        padding:"50px",
+       margin:"auto",
+       backgroundColor: "white"
+
+      }}>
+      <p><b>Name </b> -{student.firstName} {student.middleName} {student.lastName}</p><br />
+      <p><b>Class</b> -{student.Class}-{student.section}</p><br />
+      <p><b>RollNumber</b> -{student.rollNo}</p><br />
+      <p><b>Address </b>-{student.addressLine1} {student.addressLine2}</p><br />
+      <p><b>Landmark</b> -{student.landmark}</p><br />
+      <p><b>City</b> -{student.city}</p><br />
+      <p><b>Pincode</b> -{student.pincode}</p><br />
+    </Box>
+  </Modal>
+  </>
   );
 }
