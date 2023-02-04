@@ -39,7 +39,6 @@ export default function Form() {
             landmark,
             city,
             pincode,
-    
           } =data;
         console.log(data)
         fetch('https://resolute-99fee-default-rtdb.firebaseio.com/students.json',
@@ -62,6 +61,7 @@ export default function Form() {
                 pincode,})
         }).then((res)=>{
             alert("data stored")
+            setData(initState)
         }).catch(err=>console.log(err))
       }
 
